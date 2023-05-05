@@ -17,7 +17,7 @@ const {Schema, model} = require('mongoose');
 // creating a new Schema
 const pokemonSchema = new Schema( {
   name: {type: String, requred: true}, 
-  image: {type: String, required: true},
+  // image: {type: String, required: true},
   database: Boolean
 })
 

@@ -7,7 +7,7 @@ class New extends React.Component{
             <h1>Create a New Pokemon</h1>
             <form action='/pokemon' method='POST'>
                 Name: <input type='text' name='name' /><br />
-                Image:<input type='text' name='image' placeholder='Enter image URL'/><br />
+                {/* Image:<input type='text' name='image' placeholder='Enter image URL'/><br /> */}
                 Add to database:<input type='checkbox' name='database'/><br />
                 <input type='submit' value='Create a Pokemon'/>
             </form>
