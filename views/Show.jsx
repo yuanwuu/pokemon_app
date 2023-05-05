@@ -10,7 +10,8 @@ class Show extends React.Component{
                     <br/>
                     <h2> {pokemon.name} </h2>
                     <br/>
-                    <img src={`${pokemon.img}.jpg`} alt={pokemon.name}></img>
+                    {/* <img src={`${pokemon.img}.jpg`} alt={pokemon.name}></img> */}
+                    <img src={`${pokemon.image}`} alt={pokemon.name}></img>
                     <br/>
                     <a href={`/pokemon`}>Back</a>
                     

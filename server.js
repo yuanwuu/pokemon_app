@@ -72,7 +72,6 @@ app.post('/pokemon', async (req, res) =>{
     try{
         const database = req.body.database === 'on'
         // req.body.database = req.body.database === 'on'
-        // console.log(req.body)
         const newPokemon = await Pokemon.create({name:req.body.name, image:req.body.image, database:database})
         // console.log(newPokemon)
         // console.log('new pokemon added to database')
