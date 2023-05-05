@@ -3,7 +3,6 @@ const express = require('express')
 const app = express()
 const PORT = process.env.PORT || 3000
 
-
 const Pokemon = require('./models/pokemon')
 
 
@@ -22,18 +21,17 @@ connection.once('open',()=>{
 
 
 // view engine
-const reactViewsEngine = require('jsx-view-engine')
-.createEngine()
+const reactViewsEngine = require('jsx-view-engine').createEngine()
 app.engine('jsx',reactViewsEngine)
 app.set('view engine','jsx')
-app.set('views','./views')
+app.set('/views','./views')
 
 
 
 //middleware
 app.use(express.urlencoded({extended:false}))
 app.use((req,res,next)=>{
-    console.log('middleware is running...')
+    // console.log('middleware is running...')
     next();
 })
 
@@ -41,9 +39,9 @@ app.use((req,res,next)=>{
 //I.N.D.U.C.E.S.
 
 //Index
-// app.get('/',(req,res) => {
-//     res.send('welcome to the Pokemon App!')
-// })
+app.get('/',(req,res) => {
+    res.send('welcome to the Pokemon App!')
+})
 
 // app.get('/pokemon',(req,res)=> {
 //     res.render('Index',{pokemon})
@@ -52,10 +50,10 @@ app.use((req,res,next)=>{
 app.get('/pokemon',async(req,res) =>{
     // console.log('Index controller fn is running...')
     try{
-        const foundPokemon = await Pokemon.find();
-        res.render('pokemon/Index',{pokemon: foundPokemon})
+        const foundPokemon = await Pokemon.find({});
+        res.render('Index',{pokemon: foundPokemon})
     } catch (err) {
-        res.status(200).send(err)
+        res.status(400).send(err)
     }
 })
 
@@ -66,13 +64,19 @@ app.get('/pokemon/new',(req,res) =>{
     res.render('New')
 })
 
+
+
+
 //Create 
 app.post('/pokemon', async (req, res) =>{
     try{
-        req.body.database = req.body.database === 'on'
-        const newPokemon = await Pokemon.create(req.body)
-        console.log(newPokemon)
-        console.log('new pokemon added to database')
+        const database = req.body.database === 'on'
+        // req.body.database = req.body.database === 'on'
+        // console.log(req.body)
+        const newPokemon = await Pokemon.create({name:req.body.name, image:req.body.image, database:database})
+        // console.log(newPokemon)
+        // console.log('new pokemon added to database')
+        res.redirect('pokemon')
     } catch(err){
         res.status(400).send(err)
     }
@@ -81,10 +85,15 @@ app.post('/pokemon', async (req, res) =>{
 
 
 //Show
-app.get('/pokemon/:id',(req,res) => {
-    res.render('Show',{
-        pokemon: pokemon[req.params.id]
-    })
+app.get('/pokemon/:id', async (req,res) => {
+    try{
+        const foundPokemon = await Pokemon.findById(req.params.id)
+        res.render('Show',{
+            pokemon: foundPokemon
+        })
+    } catch(err){
+        res.status(400).send(err)
+    }
 })
 
 
